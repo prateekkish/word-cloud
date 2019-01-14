@@ -9,9 +9,10 @@ from nltk.corpus import stopwords
 text = ''
 subreddit = os.environ.get('SUB') or 'memes'
 def get_reddit_content(text):
+    # https://praw.readthedocs.io/en/latest/getting_started/authentication.html#oauth
     reddit = praw.Reddit(client_id='blah',
                          client_secret='blah',
-                         user_agent='wordcloud by /u/prateekkish')
+                         user_agent='testscript for wordcloud by /u/prateekkish')
 
     
     print('Wordcloud for {subreddit}'.format(subreddit=subreddit))
@@ -27,7 +28,7 @@ def get_reddit_content(text):
                 pass
     return text
 
-mask = numpy.array(Image.open("india.png"))
+mask = numpy.array(Image.open("india-source.png"))
 text = get_reddit_content(text)
 
 file = open("{filename}".format(filename=subreddit),"w+")
@@ -40,10 +41,10 @@ canvas_width = os.environ.get("CANVAS_WIDTH") or 400
 
 wordcloud = WordCloud(width=int(canvas_width),stopwords=stopwords,background_color= background_color,max_words= int(max_words),mask= mask).generate(str(text))
 
-plt.figure()
+plt.figure(figsize=(20,10))
 plt.imshow(wordcloud, interpolation="bilinear")
 plt.axis("off")
-plt.savefig("{filename}.png".format(filename=subreddit))
+plt.savefig("{filename}.jpg".format(filename=subreddit), quality=99)
 plt.show()
 
 
